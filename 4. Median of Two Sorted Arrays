@@ -1,0 +1,26 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int size1 = nums1.size(), size2 = nums2.size(), length = size1 + size2;
+        if (length & 1)
+            return findkSortedArrays(nums1, nums2, length / 2 + 1);
+        return (findkSortedArrays(nums1, nums2, length / 2) + findkSortedArrays(nums1, nums2, length / 2 + 1)) / 2.0;
+    }
+    
+    int findkSortedArrays(vector<int>& nums1, vector<int>& nums2, int k) {
+        int size1 = nums1.size(), size2 = nums2.size();
+        int left = max(0, k - size2 - 1), right = min(k - 1, size1 - 1);
+        while (left <= right) {
+            int mid = (left + right) >> 1;
+            int index = k - mid - 2;
+            if (index < 0 || nums1[mid] >= nums2[index]) {
+                if (index == size2 - 1 || nums1[mid] <= nums2[index + 1])
+                    return nums1[mid];
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return findkSortedArrays(nums2, nums1, k);
+    }
+};
