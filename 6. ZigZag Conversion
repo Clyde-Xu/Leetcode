@@ -1,0 +1,19 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        int size = s.size(), dist = numRows == 1 ? 1 : numRows * 2 - 2;
+        string result = "";
+        for (int i = 0; i < numRows; i++) {
+            int gap = dist - 2 * i, current = i;
+            while (current < size) {
+                result += s[current];
+                if (!(i == 0 || i == numRows - 1)) {
+                    if (current + gap < size)
+                        result += s[current + gap];
+                }
+                current += dist;
+            }
+        }
+        return result;
+    }
+};
