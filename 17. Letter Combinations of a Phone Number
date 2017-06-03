@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        int length = digits.size();
+        if (length == 0)
+            return vector<string>();
+        vector<string> match = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "xwyz"};
+        vector<string> words;
+        words.push_back("");
+        int start = 0;
+        for (auto &digit : digits) {
+            int end = words.size();
+            while (start < end) {
+                for (auto &c : match[digit - '0'])
+                    words.push_back(words[start] + c);
+                start++;
+            }
+        }
+        vector<string> result(words.size() - start);
+        copy(words.begin() + start, words.end(), result.begin());
+        return result;
+    }
+};
