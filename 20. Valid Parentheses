@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        char match[128];
+        match[')'] = '(';
+        match[']'] = '[';
+        match['}'] = '{';
+        stack<char> chs;
+        for (auto &c : s) {
+            if (c == '(' || c == '[' || c == '{')
+                chs.push(c);
+            else {
+                if (chs.empty() || chs.top() != match[c])
+                    return false;
+                chs.pop();
+            }
+        }
+        return chs.empty();
+    }
+};
