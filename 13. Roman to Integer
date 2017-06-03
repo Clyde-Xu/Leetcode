@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int romanToInt(string str) {
+         int sum = 0, value[26];
+         value['I' - 'A'] = 1;
+         value['V' - 'A'] = 5;
+         value['X' - 'A'] = 10;
+         value['L' - 'A'] = 50;
+         value['C' - 'A'] = 100;
+         value['D' - 'A'] = 500;
+         value['M' - 'A'] = 1000;
+         int prev = 1000;
+         for (auto &c : str) {
+             sum += value[c - 'A'];
+             if (value[c - 'A'] > prev)
+                 sum -= prev * 2;
+             prev = value[c - 'A'];
+         }
+         return sum;
+    }
+};
