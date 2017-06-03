@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int right = height.size() - 1, result = 0, left = 0;
+        while (left < right) {
+            int min_height = min(height[left], height[right]);
+            if ((right - left) * min_height > result)
+                result = (right - left) * min_height;
+            if (height[left] == min_height)
+                left++;
+            if (height[right] == min_height)
+                right--;
+        }
+        return result;
+    }
+};
