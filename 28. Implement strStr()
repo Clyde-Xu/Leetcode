@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int hsize = haystack.size(), nsize = needle.size();
+        if (nsize == 0)
+            return 0;
+        vector<int> match(nsize, -1);
+        for (int i = 1; i < nsize; i++) {
+            int prev = match[i - 1];
+            while (prev >= 0 && needle[i] != needle[prev + 1])
+                prev = match[prev];
+            match[i] = prev + (needle[prev + 1] == needle[i] ? 1 : 0);
+        }
+        int count = -1;
+        for (int i = 0; i < hsize; i++) {
+            if (needle[count + 1] == haystack[i])
+                count++;
+            else {
+                while (count >= 0 && needle[count + 1] != haystack[i])
+                    count = match[count];
+                count += needle[count + 1] == haystack[i] ? 1 : 0;
+            }
+            if (count == nsize - 1)
+                return i - nsize + 1;
+        }
+        return -1;
+    }
+};
