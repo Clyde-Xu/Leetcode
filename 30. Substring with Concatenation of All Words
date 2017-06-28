@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        int size = words.size();
+        if (size == 0)
+            return vector<int>();
+        unordered_map<string, int> count;
+        for (auto &word : words)
+            count[word]++;
+        int length = words[0].size(), ssize = s.size(), total = size * length;
+        vector<int> result;
+        for (int i = 0; i < length; i++) {
+            int start = i, index = i;
+            while (index + length <= ssize) {
+                string current = s.substr(index, length);
+                count[current]--;
+                while (count[current] < 0) {
+                    count[s.substr(start, length)]++;
+                    start += length;
+                }
+                index += length;
+                if (index - start == total)
+                    result.push_back(start);
+            }
+            while (start < index) {
+                count[s.substr(start, length)]++;
+                start += length;
+            }
+        }
+        return result;
+    }
+};
